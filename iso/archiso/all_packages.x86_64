@@ -1,0 +1,528 @@
+# kernel / firmware
+intel-ucode
+amd-ucode
+e2fsprogs
+efibootmgr
+linux
+linux-atm
+linux-firmware
+linux-firmware-marvell
+linux-zen
+linux-zen-headers
+
+# Drivers for graphics cards
+## virtualbox
+virtualbox-guest-utils # systemctl enable --now vboxservice #to have fullscreen
+## opensource
+xf86-video-intel
+#xf86-video-amdgpu
+#xf86-video-nouveau
+## NVIDIA (proprietary)
+# nvidia-dkms # or nvidia-open-dkms (if lucky)
+# aur/libva-nvidia-driver-git
+# nvidia-utils
+
+# Asus F15
+# intel-compute-runtime
+# vulkan-intel
+# aur/asusctl-git
+# aur/rog-control-center
+
+# Base packages
+alsa-utils
+arch-install-scripts
+archinstall
+b43-fwcutter
+base
+bind
+brltty
+broadcom-wl
+btrfs-progs
+cryptsetup
+darkhttpd
+ddrescue
+dhclient
+dhcpcd
+diffutils
+dmidecode
+dmraid
+dosfstools
+edk2-shell
+espeakup
+ethtool
+exfatprogs
+f2fs-tools
+fatresize
+foot-terminfo
+fsarchiver
+gnu-netcat
+gpart
+gpm
+gptfdisk
+grub
+hdparm
+hyperv
+irssi
+iw
+iwd
+jfsutils
+jgmenu
+less
+lftp
+libfido2
+libusb-compat
+livecd-sounds
+lsscsi
+lvm2
+man-db
+man-pages
+mc
+mdadm
+memtest86+
+memtest86+-efi
+mkinitcpio
+mkinitcpio-archiso
+mkinitcpio-nfs-utils
+modemmanager
+mtools
+nano
+nbd
+ndisc6
+nfs-utils
+nilfs-utils
+ntfs-3g
+nvme-cli
+open-iscsi
+open-vm-tools
+openconnect
+openssh
+partclone
+parted
+partimage
+pcsclite
+ppp
+pptpclient
+pv
+qemu-guest-agent
+refind
+reiserfsprogs
+rp-pppoe
+rsync
+rxvt-unicode-terminfo
+screen
+sdparm
+sg3_utils
+smartmontools
+sof-firmware
+squashfs-tools
+sudo
+sshpass
+syslinux
+tcpdump
+terminus-font
+testdisk
+tpm2-tss
+udftools
+upower
+usb_modeswitch
+usbmuxd
+usbutils
+vim
+virtualbox-guest-utils-nox
+vpnc
+wireless-regdb
+wireless_tools
+wpa_supplicant
+dialog
+wvdial
+xfsprogs
+xl2tpd
+bash-completion
+os-prober
+dex
+libxinerama
+make
+xorg-xkill
+xorg-xhost
+xterm
+xorg-xrdb
+mkinitcpio-openswap
+preload
+
+###  PACKAGES THAT ARE REMOVED AFTER INSTALLATION   ###
+elarch-calamares
+elarch-calamares-config
+#######################################################
+
+# Display manager
+sddm-git
+sddm-theme-astronaut
+
+# Base-devel group
+base-devel
+
+# Docker
+docker
+aur/docker-rootless-extras
+fuse-overlayfs
+
+# IMPORTANT PACKAGES
+appmenu-gtk-module
+
+# Desktop environment (will be replaced by the hyprland update script)
+chaotic-aur/hyprland-git
+aur/hyprpicker
+xdg-desktop-portal-gtk
+chaotic-aur/xdg-desktop-portal-hyprland-git
+# hyprsome
+## requirements (VERY IMPORTANT)
+sdbus-cpp
+ninja
+gcc
+cmake
+meson
+libxcb
+xcb-proto
+xcb-util
+xcb-util-keysyms
+libxfixes
+libx11
+libxcomposite
+xorg-xinput
+libxrender
+pixman
+wayland-protocols
+cairo
+pango
+seatd
+libxkbcommon
+xcb-util-wm
+xorg-xwayland
+libinput
+libliftoff
+libdisplay-info
+cpio
+
+# Chaotic repo
+chaotic-mirrorlist
+chaotic-keyring
+
+# XDG standard
+chaotic-aur/xdg-ninja-git
+aur/selectdefaultapplication-fork-git
+aur/handlr-regex-bin
+# aur/pistol-git
+
+# System utils
+## Networking
+networkmanager
+network-manager-applet
+## Bluetooth
+blueman
+## Audio / Sound
+audacity
+pipewire
+pipewire-pulse
+pavucontrol
+pamixer
+## OSD
+aur/avizo
+## Background
+chaotic-aur/azote
+swaybg
+## Clipboard
+wl-clipboard
+cliphist
+## Brightness
+brightnessctl
+## Authentication
+seahorse
+gnome-keyring
+polkit-gnome
+polkit-qt5
+kwallet-pam
+## Top bar
+# eww-wayland
+# aur/eww-tray-wayland-git
+# aur/gbar-git
+waybar
+libevdev
+python-evdev
+## misc
+wlogout
+swaync
+swaync-client
+swaylock-effects
+swayidle
+## Disks / USB devices / Cleanup
+aur/usbguard-applet-qt
+chaotic-aur/qdirstat
+gparted
+chaotic-aur/czkawka-gui
+
+# Performace
+stacer
+
+# Qt5/6
+qt5ct
+qt6ct
+qtkeychain-qt5
+qtkeychain-qt6
+
+
+# Fonts/text
+noto-fonts
+noto-fonts-emoji
+noto-fonts-extra
+noto-fonts-cjk
+otf-font-awesome
+aur/otf-manrope
+tesseract
+tesseract-data-eng
+
+# Themes
+## Cursors
+chaotic-aur/bibata-cursor-theme
+## Icons
+aur/papirus-icon-theme-git
+## grub theme
+aur/grub-theme-cyberre
+
+# Screenshoting and recording
+grim
+slurp
+chaotic-aur/flameshot-git
+obs-studio
+
+# Programming
+## Java (also needed for Burp)
+jdk-openjdk
+## Python
+# aur/python2
+python3
+mypy
+ruff
+python-pip
+python-pipx
+python-termcolor
+## Rust
+rustup
+## Golang
+go
+
+# Music
+playerctl
+
+# Terminal
+chaotic-aur/wezterm-git
+
+# Shell
+zsh
+direnv
+curl
+curlie
+aur/fcp-bin
+plocate
+wget
+progress
+trash-cli
+thefuck
+zoxide
+## ascii art
+# neofetch
+# aur/archey5
+aur/pfetch
+figlet
+chaotic-aur/c-lolcat
+bat
+lsd
+git-delta
+mcfly
+aur/doggo-bin
+
+# KDEConnect
+valent-git
+
+# Password manager
+bitwarden-cli
+
+# Dotfiles
+chezmoi
+
+# File managment
+# nautilus
+# filemanager-actions
+# aur/nautilus-admin-gtk4
+# aur/nautilus-hide-git
+# aur/nautilus-open-any-terminal-git
+# # aur/nautilus-bluetooth-git # requires bluetooth-sendto...
+# nautilus-sendto
+nemo
+nemo-fileroller
+aur/nemo-compare
+nemo-preview
+# nemo-terminal
+nemo-image-converter
+aur/nemo-media-columns
+lf
+fd
+
+# Additional utils
+unzip
+glow
+# tldr
+tealdeer
+ffmpeg
+btop
+aur/geticons
+moreutils
+aur/batify
+wev
+onefetch
+
+# Applications
+## Office
+xournalpp
+# zathura
+onlyoffice-bin
+## Mail
+aur/betterbird-bin
+## Communications
+# signal-desktop
+## Browser
+chaotic-aur/thorium-browser-avx-bin
+# chaotic-aur/google-chrome
+## Discord
+aur/vencord-desktop-bin
+# chaotic-aur/betterdiscordctl-git
+## Note taking
+obsidian
+## spotify
+spotify-launcher
+# chaotic-aur/spicetify-cli -> curl -fsSL https://raw.githubusercontent.com/spicetify/spicetify-cli/master/install.sh | sh
+aur/spicetify-theme-dracula-git
+aur/spotifywm-git
+
+# Video
+vlc
+
+# Images
+gthumb
+
+# Software Development
+## Github
+github-cli
+## IDE
+visual-studio-code-bin
+
+# Hacking Tools
+## Autocomplete
+navi
+# Android
+aur/jadx-gui-desktop
+aur/python-frida
+aur/python-androguard
+android-udev
+chaotic-aur/android-sdk
+chaotic-aur/android-emulator
+chaotic-aur/android-sdk-cmdline-tools-latest
+chaotic-aur/android-sdk-platform-tools
+android-tools
+chaotic-aur/android-studio
+## Frameworks
+metasploit
+## Reverse engineering
+python-z3-solver
+python-claripy
+# aur/python-angr-git
+rlwrap
+ghidra
+cutter
+rz-ghidra
+rz-cutter
+dotnet-runtime-6.0
+aur/jd-gui
+aur/recaf-bin
+## PWN
+gdb
+strace
+python-typing_extensions
+python-tabulate
+python-pwntools
+aur/python-pwnscripts
+ropper
+ropgadget
+## Forensics
+aur/pycdc-git
+aur/python-pyshark
+aur/volatility3-git
+# aur/python2-volatility-git
+foremost
+aur/python-oletools
+chaotic-aur/powershell
+## Steganography
+aur/stegsolve
+aur/steghide
+aur/stegseek
+aur/zsteg
+perl-image-exiftool
+## Active Directory
+python-impacket
+## Web
+python-beautifulsoup4
+python-flask
+wpscan
+aur/joomscan
+## Networking / Wi-Fi
+aircrack-ng
+nmap
+rustscan
+python-scapy
+## Shell handler
+aur/penelope-git
+## Bruteforcing
+aur/hydra
+aur/ffuf-bin
+aur/feroxbuster
+## hex editor
+chaotic-aur/imhex
+## wordlists
+# aur/seclists
+## Crypto
+python-pycryptodome
+python-pycryptodomex
+sagemath
+python-numpy
+aur/rsactftool-git
+# End Hacking Tools
+
+# VPNs (wireguard support is in NetworkManager so no need to install it)
+openvpn
+
+# Windows emulation
+# wine
+# bottles
+# python-ntlm-authorg
+
+# Remote desktop
+remmina
+freerdp
+libvncserver
+spice-gtk
+
+# Packaging
+## Paru (aur/helper)
+chaotic-aur/paru
+## Mirrors
+aur/rate-mirrors-bin
+aur/pacman-cleanup-hook
+
+# Launchers
+aur/anyrun-git
+# aur/ulauncher-git
+rofi
+
+# parsers
+aur/jaq
+# jq
+aur/ripgrep

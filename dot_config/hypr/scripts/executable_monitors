@@ -1,0 +1,32 @@
+#!/bin/bash
+
+clean(){
+    # reapply the background
+    # pkill -9 swaybg && swaybg -o \* -i $HOME/Pictures/backgrounds/background.png -m fill &
+    # $HOME/.azotebg-hyprland
+    # check if waybar is running
+    # if pgrep -x "waybar" > /dev/null
+    # then
+    #     waybar &
+    # fi
+    hyprctl reload
+}
+
+# Define the options for the Rofi menu
+options=("Extend Monitors
+Duplicate Monitors")
+choice=$(printf '%s
+
+' "${options[@]}" | rofi -dmenu -i -p "Monitor configuration")
+
+# Run the appropriate script
+case $choice in
+    "Extend Monitors")
+        cp $HOME/.config/hypr/monitors_extend.conf $HOME/.config/hypr/monitors.conf
+        clean
+    ;;
+    "Duplicate Monitors")
+        cp $HOME/.config/hypr/monitors_duplicate.conf $HOME/.config/hypr/monitors.conf
+        clean
+    ;;
+esac

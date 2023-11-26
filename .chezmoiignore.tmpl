@@ -1,0 +1,123 @@
+# I anyways populate manually so don't litter $HOME
+Dockerfile
+confs/
+pyproject.toml
+README.md
+requirements.txt
+
+# custom ISO
+iso/
+release-config.js
+
+# notes
+*.notes
+
+# Monitor arrangement
+.config/hypr/monitors.conf
+
+# VSCODE workspace
+.vscode/*
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/extensions.json
+*.code-workspace
+
+# Exclude for security reasons
+.history/
+.dccache
+.env
+
+# Zsh compiled script + zrecompile backup
+*.zwc
+*.zwc.old
+
+# Zsh completion-optimization dumpfile
+*zcompdump*
+
+# Zsh zcalc history
+.zcalc_history
+
+# A popular plugin manager's files
+._zi
+._zinit
+._zplugin
+.zi_lastupd
+.zinit_lastupd
+.zplugin_lstupd
+
+# z-shell/zshelldoc tool's files
+zsdoc/data
+docs/zsdoc/data
+
+# Python
+**/__pycache__/
+**/*.pyc
+
+# Nodejs
+**/node_modules/
+**/package-lock.json
+**/package.json
+
+.keep
+**/*.log
+
+# ohmyzsh/ohmyzsh/plugins/per-directory-history plugin's files
+# (when set-up to store the history in the local directory)
+.directory_history
+
+# MichaelAquilina/zsh-autoswitch-virtualenv plugin's files
+# (for Zsh plugins using Python)
+.zsh/.venv/
+
+.zsh/antigen/
+.zsh/cache/
+.zsh/.zinit/**
+.zsh/zoxide/**
+.zsh/zsh_history.zsh
+.zsh/ecsc/
+.zsh/.zfunc/ataka.py
+
+# Temporary stuff probably not needed
+**/tmp/**
+**/temp/**
+
+# Mypy
+**/.mypy_cache
+
+# Only create ssh keys if they don't exist
+
+{{- if (ne .chezmoi.hostname "ELARCH-F15") }}
+.ssh/config
+.ssh/keys/eraspberry1
+.ssh/keys/portainer
+.ssh/keys/eserverr-local
+.ssh/keys/ftc
+.ssh/keys/elarch-builder
+.ssh/keys/ecsc
+{{- else }}
+{{- if  stat (joinPath .chezmoi.homeDir ".ssh/config") }}
+.ssh/config
+{{- end }}
+{{- if  stat (joinPath .chezmoi.homeDir ".ssh/keys/eraspberry1") }}
+.ssh/keys/eraspberry1
+{{- end }}
+{{- if  stat (joinPath .chezmoi.homeDir ".ssh/keys/portainer") }}
+.ssh/keys/portainer
+{{- end }}
+{{- if  stat (joinPath .chezmoi.homeDir ".ssh/keys/eserver-local") }}
+.ssh/keys/eserver-local
+{{- end }}
+{{- if  stat (joinPath .chezmoi.homeDir ".ssh/keys/ftc") }}
+.ssh/keys/ftc
+{{- end }}
+{{- if  stat (joinPath .chezmoi.homeDir ".ssh/keys/elarch-builder") }}
+.ssh/keys/elarch-builder
+{{- end }}
+{{- if  stat (joinPath .chezmoi.homeDir ".ssh/keys/ecsc") }}
+.ssh/keys/ecsc
+{{- end }}
+{{- end }}
+# The below are to be manually updated, if needed(the usually store files that change with timestamps...)
+.config/BetterDiscord/
+# .local/share/bottles/

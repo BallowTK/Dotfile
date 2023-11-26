@@ -1,0 +1,3 @@
+#!/bin/bash
+
+pkill -9 rofi || rofi -modi clipboard:$HOME/.config/rofi/configs/cliphist-rofi-img -show clipboard -show-icons
