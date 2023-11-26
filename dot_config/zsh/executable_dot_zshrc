@@ -1,0 +1,123 @@
+# Start profiler
+if [[ "${ZSH_PROFILE}" == 1 ]]; then
+    zmodload zsh/zprof
+else
+    ZSH_PROFILE=0
+    $ZDOTDIR/scripts/utils/clear
+fi
+
+
+# check message of the day
+[ -f /etc/motd ] && /usr/bin/cat /etc/motd
+
+HYPHEN_INSENSITIVE="true"
+ENABLE_CORRECTION="true"
+
+HISTFILE=$ZDOTDIR/zsh_history.zsh
+SAVEHIST=10000000
+HISTSIZE=50000
+
+# History command configuration
+setopt extended_history       # record timestamp of command in HISTFILE
+setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
+setopt hist_ignore_dups       # ignore duplicated commands history list
+setopt hist_ignore_space      # ignore commands that start with space
+setopt hist_verify            # show command with history expansion to user before running it
+setopt share_history          # Share history between different instances of the shell
+setopt inc_append_history     # add commands to HISTFILE in order of execution
+setopt incappendhistorytime
+setopt appendhistory            # Immediately append history instead of overwriting
+setopt autocd                   # if only directory path is entered, cd there.
+setopt auto_pushd
+setopt pushd_ignore_dups
+setopt pushdminus
+setopt complete_in_word
+setopt always_to_end
+
+setopt INTERACTIVE_COMMENTS
+
+# Styling
+source $ZDOTDIR/zstyle.zsh
+
+_comp_options+=(globdots)
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of $ZSHrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ $(tput colors) == 256 ]]; then
+    if [[ -r '${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh' ]]; then
+        source '${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh'
+    fi
+
+    # To customize prompt, run `p10k configure` or edit $ZDOTDIR/p10k.zsh.
+    # [[ ! -f $ZDOTDIR/p10k.zsh ]] || source $ZDOTDIR/p10k.zsh
+fi
+
+case ${TERM} in
+    xterm*|rxvt*|Eterm*|aterm|kterm|terminator|gnome*|alacritty|st|konsole*|warp|linux)
+        PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\007"'
+    ;;
+    screen*)
+        PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\033\\"'
+    ;;
+esac
+if [ "$TERM" = "linux" ]; then
+    printf %b '\e[40m' '\e[8]' # set default background to color 0 'dracula-bg'
+    printf %b '\e[37m' '\e[8]' # set default foreground to color 7 'dracula-fg'
+    printf %b '\e]P0282a36'    # redefine 'black'          as 'dracula-bg'
+    printf %b '\e]P86272a4'    # redefine 'bright-black'   as 'dracula-comment'
+    printf %b '\e]P1ff5555'    # redefine 'red'            as 'dracula-red'
+    printf %b '\e]P9ff7777'    # redefine 'bright-red'     as '#ff7777'
+    printf %b '\e]P250fa7b'    # redefine 'green'          as 'dracula-green'
+    printf %b '\e]PA70fa9b'    # redefine 'bright-green'   as '#70fa9b'
+    printf %b '\e]P3f1fa8c'    # redefine 'brown'          as 'dracula-yellow'
+    printf %b '\e]PBffb86c'    # redefine 'bright-brown'   as 'dracula-orange'
+    printf %b '\e]P4bd93f9'    # redefine 'blue'           as 'dracula-purple'
+    printf %b '\e]PCcfa9ff'    # redefine 'bright-blue'    as '#cfa9ff'
+    printf %b '\e]P5ff79c6'    # redefine 'magenta'        as 'dracula-pink'
+    printf %b '\e]PDff88e8'    # redefine 'bright-magenta' as '#ff88e8'
+    printf %b '\e]P68be9fd'    # redefine 'cyan'           as 'dracula-cyan'
+    printf %b '\e]PE97e2ff'    # redefine 'bright-cyan'    as '#97e2ff'
+    printf %b '\e]P7f8f8f2'    # redefine 'white'          as 'dracula-fg'
+    printf %b '\e]PFffffff'    # redefine 'bright-white'   as '#ffffff'
+    clear
+fi
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+
+# Sourcing zsh themes
+# source $ZDOTDIR/themes/dracula.zsh
+
+source $ZDOTDIR/binds.zsh
+
+# The following lines were added by compinstall
+zstyle :compinstall filename '~/.zshrc'
+
+source $ZDOTDIR/functions.zsh
+
+fpath+=$ZDOTDIR/.zfunc
+
+autoload -U select-word-style
+select-word-style bash # alt+backspaces now deletes to previous / when working with paths
+
+# COMPLETIONS
+autoload -Uz compinit
+# check if zcompdump file exists and if it is older than a day
+if [ ! -s "$XDG_CACHE_HOME/zsh/.zcompdump-$ZSH_VERSION" ] || [ $(date +'%j') != $(date -d "@`/usr/bin/stat -c '%Y' $XDG_CACHE_HOME/zsh/.zcompdump-$ZSH_VERSION`" '+%j') ]; then
+    compinit -u -i -d "$XDG_CACHE_HOME/zsh/.zcompdump-$ZSH_VERSION"
+else
+    compinit -C -d "$XDG_CACHE_HOME/zsh/.zcompdump-$ZSH_VERSION"
+fi
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+autoload -U +X bashcompinit && bashcompinit # needed for pipx to load
+
+# load aliases at the end to overwrite "framework" set aliases
+source $ZDOTDIR/aliases.zsh
+
+# Plugins (at the end of the file)
+source "$ZDOTDIR/plugins.zsh"
+
+zinit cdreplay -q

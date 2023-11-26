@@ -1,0 +1,113 @@
+{{- if eq .chezmoi.hostname "ELARCH-F15" }}
+[".config/gdb/pwndbg"]
+    type = "archive"
+    url = "https://github.com/pwndbg/pwndbg/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+
+[".config/gdb/gef"]
+    type = "archive"
+    url = "https://github.com/hugsy/gef/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+
+[".config/gdb/peda"]
+    type = "archive"
+    url = "https://github.com/longld/peda/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+
+[".local/bin/gtk4themeadapter"]
+    type = "archive-file"
+    url = "https://github.com/Cornul11/GTK4ThemeAdapter/archive/main.tar.gz"
+    refreshPeriod = "168h"
+    stripComponents = 1
+    path = "gtk4_theme_adapter.py"
+
+[".local/bin/c"]
+    type = "archive-file"
+    url = '{{ gitHubLatestRelease "rettier/c" | toJson | fromJson | jq ".assets[1].browser_download_url" | first}}'
+    refreshPeriod = "168h"
+    stripComponents = 1
+    path = "c"
+
+[".local/bin/capa"]
+    type = "archive-file"
+    url = '{{ gitHubLatestRelease "mandiant/capa" | toJson | fromJson | jq ".assets[0].browser_download_url" | first}}'
+    refreshPeriod = "168h"
+    stripComponents = 0
+    path = "capa"
+
+[".config/gdb/peda-arm"]
+    type = "archive"
+    url = "https://github.com/alset0326/peda-arm/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+
+{{- end }}
+
+[".config/qt5ct/colors/Dracula.conf"]
+    type = "archive-file"
+    url = "https://github.com/dracula/qt5/archive/master.zip"
+    refreshPeriod = "168h"
+    stripComponents = 1
+    path = "Dracula.conf"
+
+[".config/qt6ct/colors/Dracula.conf"]
+    type = "archive-file"
+    url = "https://github.com/dracula/qt5/archive/master.zip"
+    refreshPeriod = "168h"
+    stripComponents = 1
+    path = "Dracula.conf"
+
+[".config/zsh/themes/dracula-theme.zsh"]
+    type = "file"
+    url = "https://raw.githubusercontent.com/dracula/zsh-syntax-highlighting/master/zsh-syntax-highlighting.sh"
+    refreshPeriod = "168h"
+
+[".themes/Dracula"]
+    type = "archive"
+    url = "https://github.com/dracula/gtk/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+
+[".config/spicetify/Themes/Dracula"]
+    type = "archive"
+    url = "https://github.com/dracula/spicetify/archive/master.zip"
+    exact = true
+    include = ["spicetify-main/Dracula/*"]
+    stripComponents = 2
+    refreshPeriod = "168h"
+
+[".config/spicetify/CustomApps/marketplace"]
+    type = "archive"
+    url = '{{ gitHubLatestRelease "spicetify/spicetify-marketplace" | toJson | fromJson | jq ".assets[0].browser_download_url" | first}}'
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+
+[".config/zsh/utils/gitstatus/gitstatusd-linux"]
+    type = "archive-file"
+    url = '{{ gitHubLatestRelease "romkatv/gitstatus" | toJson | fromJson | jq ".assets[16].browser_download_url" | first}}'
+    refreshPeriod = "168h"
+    stripComponents = 0
+    path = "gitstatusd-linux-x86_64"
+
+[".config/hypr/hyprland-repo"]
+    type = "git-repo"
+    url = "https://github.com/hyprwm/hyprland.git"
+    branch = "main"
+    refreshPeriod = "6h"
+    clone.args = ["--recurse-submodules", "--shallow-submodules"]
+    pull.args = ["--recurse-submodules"]
+
+[".config/hypr/plugins/split-monitor-workspaces"]
+    type = "git-repo"
+    url = "https://github.com/Duckonaut/split-monitor-workspaces.git"
+    branch = "main"
+    refreshPeriod = "6h"

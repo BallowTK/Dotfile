@@ -1,0 +1,246 @@
+source $ZDOTDIR/functions/hyprland.zsh
+source $ZDOTDIR/functions/updaters.zsh
+source $ZDOTDIR/functions/hacking.zsh
+
+function chrome() {
+    browser=$(\ls /usr/bin | grep -E "chromium|brave|google-chrome|thorium" | head -n 1)
+    $browser --enable-logging --v=1
+}
+
+function e() {
+    local target_file="$1"
+    if [[ -z "$target_file" ]]; then
+        # echo "No file specified opening last session"
+        $EDITOR
+    elif [[ -e "$target_file" || -w "$(dirname "$target_file")" ]]; then
+        $EDITOR "$target_file"
+    else
+        sudoedit "$target_file" &
+    fi
+}
+
+function chosts(){
+    echo -ne """# Static table lookup for hostnames.
+# See hosts(5) for details.
+127.0.0.1 localhost
+127.0.0.1 ELARCH-F15
+
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+""" | sudo tee /etc/hosts
+}
+
+function upload() {
+    if [[ -z $1 ]]; then
+        echo "No file specified for upload"
+        return 1
+    fi
+    full_path=$(realpath $1)
+    curl --silent -F"file=@$full_path" https://0x0.st
+}
+
+function mkcd(){
+    mkdir -p $1
+    cd $1
+}
+
+# Move latest Download to current directory
+function mvd() {
+    local fileName
+    # check that the user is not in the Downloads directory already
+    if [[ $(pwd) == "$HOME"/Downloads ]]; then
+        echo "Already in Downloads directory"
+        return 1
+    else
+        fileName=$(\ls -t $HOME/Downloads | head -n 1)
+        # check that the command was completed successfully and has an output
+        if [[ $? == 0 && -n $fileName ]]; then
+            # Check if file doesn't end with .crdownload ignore casing
+            if [[ ${(L)fileName} != *.crdownload ]]; then
+                mv $HOME/Downloads/"$fileName" .
+            else
+                echo $fileName has not finished downloading
+            fi
+        else
+            echo "No files in Downloads"
+            return 1
+        fi
+    fi
+}
+
+# Move latest Screenshot to current directory
+function mvs() {
+    # check that the user is not in the Screenshots directory already
+    if [[ $(pwd) == "$HOME"/Pictures/Screenshots ]]; then
+        echo "Already in Screenshots directory"
+        return 1
+    else
+        local fileName
+        fileName=$(\ls -t $HOME/Pictures/Screenshots | head -n 1)
+        # check that the command was completed successfully and has an output
+        if [[ $? == 0 && -n $fileName ]]; then
+            mv $HOME/Pictures/Screenshots/"$fileName" .
+        else
+            echo "No files in Screenshots"
+            return 1
+        fi
+    fi
+}
+
+function wifi-pass() {
+    if [[ -z $1 ]]; then
+        echo "No SSID specified"
+        return 1
+    fi
+    sudo grep -r '^psk=' /etc/NetworkManager/system-connections/ | sed 's/\/etc\/NetworkManager\/system-connections\///g' | grep $1
+}
+
+function checkContainerRunning() {
+    docker container ls -q -f name="$1"
+}
+
+# An all in one extract function for all archive types
+function ex() {
+    if [ -z "$1" ]; then
+        # display usage if no parameters given
+        echo "Usage: ex <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
+        echo "       ex <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext] ..."
+    else
+        for n in "$@"
+        do
+            if [ -f "$n" ] ; then
+                case "${n%,}" in
+                    *.cbt|*.tar.bz2|*.tar.gz|*.tar.xz|*.tbz2|*.tgz|*.txz|*.tar)
+                    tar xvf "$n"       ;;
+                    *.lzma)      unlzma ./"$n"      ;;
+                    *.bz2)       bunzip2 ./"$n"     ;;
+                    *.cbr|*.rar)       unrar x -ad ./"$n" ;;
+                    *.gz)        gunzip ./"$n"      ;;
+                    *.cbz|*.epub|*.zip)       unzip ./"$n"       ;;
+                    *.z)         uncompress ./"$n"  ;;
+                    *.7z|*.arj|*.cab|*.cb7|*.chm|*.deb|*.dmg|*.iso|*.lzh|*.msi|*.pkg|*.rpm|*.udf|*.wim|*.xar)
+                    7z x ./"$n"        ;;
+                    *.xz)        unxz ./"$n"        ;;
+                    *.exe)       cabextract ./"$n"  ;;
+                    *.cpio)      cpio -id < ./"$n"  ;;
+                    *.cba|*.ace)      unace x ./"$n"      ;;
+                    *)
+                        echo "ex: '$n' - unknown archive method"
+                        return 1
+                    ;;
+                esac
+            else
+                echo "'$n' - file does not exist"
+                return 1
+            fi
+        done
+    fi
+}
+
+# colorized man pages
+function man() {
+    env \
+    LESS_TERMCAP_mb=$(printf "\e[1;31m") \
+    LESS_TERMCAP_md=$(printf "\e[1;35m") \
+    LESS_TERMCAP_me=$(printf "\e[0m") \
+    LESS_TERMCAP_se=$(printf "\e[0m") \
+    LESS_TERMCAP_so=$(printf "\e[4;36m") \
+    LESS_TERMCAP_ue=$(printf "\e[0m") \
+    LESS_TERMCAP_us=$(printf "\e[3;34m") \
+    PAGER="${commands[less]:-$PAGER}" \
+    _NROFF_U=1 \
+    man "$@"
+}
+
+# navigation
+function up () {
+    local d=""
+    local limit="$1"
+
+    # Default to limit of 1
+    if [ -z "$limit" ] || [ "$limit" -le 0 ]; then
+        limit=1
+    fi
+
+    for ((i=1;i<=limit;i++)); do
+        d="../$d"
+    done
+
+    # perform cd. Show error if cd fails
+    if ! cd "$d"; then
+        echo "Couldn't go up $limit dirs.";
+    fi
+}
+
+function rm(){
+    this_file_system=$(df -P $HOME | tail -1 | awk '{print $1}')
+    flags=()
+    targets=()
+    for arg in "$@"; do
+        if [[ $arg == -* ]]; then
+            flags+=("$arg")
+        else
+            targets+=("$arg")
+        fi
+    done
+    if [[ -z $targets ]]; then
+        echo "No targets specified"
+        return 1
+    fi
+    # echo "targets: ${targets[@]}"
+    # echo "flags: $flags"
+    for target in "${targets[@]}"; do
+        target_file_system=$(df -P $target 2>/dev/null | tail -1 | awk '{print $1}')
+        if [[ $target_file_system == $this_file_system ]]; then
+            trash-put $target
+        else
+            # if flags is empty, don't pass it to rm
+            if [[ -z $flags ]]; then
+                output=$(/usr/bin/rm $target 2>&1)
+                # echo $output
+                if [[ $? != 0 ]]; then
+                    if [[ $output == *".git/objects/pack': Directory not empty"* ]]; then
+                        echo "git repo detected, killing gitstatusd"
+                        pkill -9 gitstatusd-linu
+                        /usr/bin/rm $target
+                    else
+                        echo "Error: $output"
+                    fi
+                fi
+            else
+                flags="${flags[@]}"
+                output=$(/usr/bin/rm $flags $target 2>&1)
+                # echo $output
+                if [[ $? != 0 ]]; then
+                    if [[ $output == *".git/objects/pack': Directory not empty"* ]]; then
+                        echo "git repo detected, killing gitstatusd"
+                        pkill -9 gitstatusd-linu
+                        /usr/bin/rm $flags $target
+                    else
+                        echo "Error: $output"
+                    fi
+                fi
+            fi
+        fi
+    done
+}
+
+# Adding onefetch to every cd you do with a .git dir
+cd () {
+    __zoxide_z "$@"
+    git rev-parse 2> /dev/null
+    if [ $? -eq 0 ]
+    then
+        if [ "$LAST_REPO" != $(basename "$(git rev-parse --show-toplevel)") ]
+        then
+            onefetch
+            LAST_REPO=$(basename "$(git rev-parse --show-toplevel)")
+        fi
+    fi
+}
+
+# Time shell loading time
+timeshell() {
+    shell=${1-$SHELL}
+    for i in $(seq 1 10); do time ZSH_PROFILE=1 $shell -i -c exit; done
+}
